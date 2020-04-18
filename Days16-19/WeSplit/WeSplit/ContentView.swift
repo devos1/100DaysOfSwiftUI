@@ -9,65 +9,48 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var tapCount = 0
-    @State private var name = ""
-    let students = ["Harry", "Hermione", "Ron"]
-    @State private var selectedStudent = 0
+    @State private var checkAmount = ""
+    @State private var numberOfPeopple = 2
+    @State private var tipPercentage = 2
+    let tipPercentages = [10, 15, 20, 25, 0]
+    
+    var totalPerPerson: Double{
+        let peopleCount = Double(numberOfPeopple + 2)
+        let tipSelection = Double(tipPercentages[tipPercentage])
+        let orderAmount = Double(checkAmount) ?? 0
+        
+        let tipValue = orderAmount / 100 * tipSelection
+        let grandTotal = orderAmount + tipValue
+        let amountPerPerson = grandTotal / peopleCount
+        
+        return amountPerPerson
+    }
     
     var body: some View {
-        VStack{
-            Picker("Select your student", selection: $selectedStudent) {
-                ForEach(0 ..< students.count) {
-                    Text(self.students[$0])
+        NavigationView{
+            Form{
+                Section{
+                    TextField("Amount : ",  text: $checkAmount)
+                        .keyboardType(.decimalPad)
+                    Picker("Number of People", selection: $numberOfPeopple){
+                        ForEach(2..<100){
+                            Text("\($0) people")
+                        }
+                    }
                 }
+                Section(header: Text("How much tip do you want to leave ?")){
+                    Picker("Tip percentage", selection: $tipPercentage){
+                        ForEach(0 ..< tipPercentages.count){
+                            Text("\(self.tipPercentages[$0])%")
+                        }
+                    }.pickerStyle(SegmentedPickerStyle())
+                }
+                Section{
+                    Text("$\(totalPerPerson, specifier: "%.2f")")
+                }
+                .navigationBarTitle("WeSplit")
             }
-            Text("You chose: Student # \(students[selectedStudent])")
         }
-        
-        
-    
-//        ForEach(0..<100){ number in
-//            Text("Row \(number)")
-//        }
-        
-        /*
-         OR
-         ForEach(0 ..< 100) {
-             Text("Row \($0)")
-         }
-         */
-        
-        
-        
-//        Button("Tap Count: \(tapCount)"){
-//            self.tapCount += 1
-//          }
-        
-//        Form{
-//            TextField("Enter your Name", text: $name) // $ means 2-way binding
-//            Text("Your Name is \(name)")
-//        }
-        
-//        NavigationView{
-//            Form{
-//                Section{
-//                    Text("Hello World")
-//                }
-//            }
-//            .navigationBarTitle("SwiftUI", displayMode: .inline)
-//        }
-        
-//        Form{
-//            Section{
-//                Text("Hello, World!")
-//                Text("Hello, World!")
-//            }
-//            Section{
-//                Text("Hello, World!")
-//                Text("Hello, World!")
-//                Text("Hello, World!")
-//            }
-//        }
     }
 }
 
