@@ -67,7 +67,7 @@ struct ContentView: View {
                 Section(header: Text("Total Amount")){
                     Text("$\(grandTotal, specifier: "%.2f")")
                 }
-                .navigationBarTitle("WeSplit")
+                .navigationBarTitle("WeSplit")  
             }
         }
     }
