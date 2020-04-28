@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE1502B42458BBCE00D8D7B1 /* SleepCalculator.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FE1502B32458BBCE00D8D7B1 /* SleepCalculator.mlmodel */; };
 		FEBEEF9D245710CE004F1148 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBEEF9C245710CE004F1148 /* AppDelegate.swift */; };
 		FEBEEF9F245710CE004F1148 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBEEF9E245710CE004F1148 /* SceneDelegate.swift */; };
 		FEBEEFA1245710CE004F1148 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBEEFA0245710CE004F1148 /* ContentView.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FE1502B32458BBCE00D8D7B1 /* SleepCalculator.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = SleepCalculator.mlmodel; path = ../../../../../../../Desktop/SleepCalculator.mlmodel; sourceTree = "<group>"; };
 		FEBEEF99245710CE004F1148 /* BetterRest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BetterRest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEBEEF9C245710CE004F1148 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEBEEF9E245710CE004F1148 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				FEBEEFA2245710CF004F1148 /* Assets.xcassets */,
 				FEBEEFA7245710CF004F1148 /* LaunchScreen.storyboard */,
 				FEBEEFAA245710CF004F1148 /* Info.plist */,
+				FE1502B32458BBCE00D8D7B1 /* SleepCalculator.mlmodel */,
 				FEBEEFA4245710CF004F1148 /* Preview Content */,
 			);
 			path = BetterRest;
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEBEEF9D245710CE004F1148 /* AppDelegate.swift in Sources */,
+				FE1502B42458BBCE00D8D7B1 /* SleepCalculator.mlmodel in Sources */,
 				FEBEEF9F245710CE004F1148 /* SceneDelegate.swift in Sources */,
 				FEBEEFA1245710CE004F1148 /* ContentView.swift in Sources */,
 			);
