@@ -13,8 +13,8 @@ struct ContentView: View {
     @State private var sleepAmount = 8.0
     @State private var coffeeAmount = 1
     @State private var alertTitle = ""
-    @State private var alertMessage = ""
     @State private var showingAlert = false
+    @State private var alertMessage = ""
     
     static var defaultWakeTime: Date {
         var components = DateComponents()
@@ -25,47 +25,53 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView{
-            Form {
-                Text("When do you want to wake up?")
-                    .font(.headline)
-                
-                DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
-                    .labelsHidden()
-                
-                VStack(alignment: .leading, spacing: 0){
-                    Text("Desired amount of sleep")
+            ZStack(){
+                Form() {
+                    Text("When do you want to wake up?")
                         .font(.headline)
                     
-                    Stepper(value: $sleepAmount, in: 4...12, step: 0.25) {
-                        Text("\(sleepAmount, specifier: "%g") hours")
+                    DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                    
+                    Section(header: Text("Desired amount of sleep")){
+                        Stepper(value: $sleepAmount, in: 4...12, step: 0.25) {
+                            Text("\(sleepAmount, specifier: "%g") hours")
+                        }
+                    }
+                    .alert(isPresented: $showingAlert) {
+                        Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                    }
+                    
+                    Section(header: Text("Daily coffee intake")){
+                        Picker("", selection: $coffeeAmount){
+                            ForEach(Range(1...20)){
+                                Text("\($0)")
+                            }
+                        }
+                        //                    Stepper(value: $coffeeAmount, in: 1...20) {
+                        //                        if coffeeAmount == 1 {
+                        //                            Text("1 cup")
+                        //                        } else {
+                        //                            Text("\(coffeeAmount) cups")
+                        //                        }
+                        //                    }
                     }
                 }
-                .alert(isPresented: $showingAlert) {
-                    Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-                }
-                
-                // Different approach with text in a row not on the same section or vstack with stepper, worse here
-                Text("Daily coffee intake")
-                    .font(.headline)
-                
-                Stepper(value: $coffeeAmount, in: 1...20) {
-                    if coffeeAmount == 1 {
-                        Text("1 cup")
-                    } else {
-                        Text("\(coffeeAmount) cups")
+                .navigationBarTitle("BetterRest")
+                .navigationBarItems(trailing:
+                    //            Button("Calculate") {
+                    //                self.calculateBedtime()
+                    //            }
+                    // OR without closure
+                    Button(action: calculateBedtime) {
+                        Text("Calculate")
                     }
-                }
+                )
+                Text("You should go to bed at \(alertMessage)")
+                    .font(.title)
+                    .foregroundColor(Color.blue)
+                    .opacity(alertMessage != "" ? 1.0 : 0.0)
             }
-            .navigationBarTitle("BetterRest")
-            .navigationBarItems(trailing:
-                //            Button("Calculate") {
-                //                self.calculateBedtime()
-                //            }
-                // OR without closure
-                Button(action: calculateBedtime) {
-                    Text("Calculate")
-                }
-            )
         }
     }
     
@@ -80,7 +86,7 @@ struct ContentView: View {
             let sleepTime = wakeUp - prediction.actualSleep
             let formatter = DateFormatter()
             formatter.timeStyle = .short
-
+            
             alertMessage = formatter.string(from: sleepTime)
             alertTitle = "Your ideal bedtime is…"
         } catch {
