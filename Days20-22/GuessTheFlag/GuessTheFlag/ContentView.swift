@@ -17,6 +17,10 @@ struct ContentView: View {
     @State private var msg = ""
     var countriesUsed: [String] = []
     
+    @State private var animationAmount = 0.0
+    @State private var animationOpacity = 1.0
+    @State private var animationAmount2: CGFloat = 1
+    
     var body: some View {
         ZStack{
             Color.blue.edgesIgnoringSafeArea(.all)
@@ -33,14 +37,25 @@ struct ContentView: View {
                 ForEach(0 ..< 3){number in
                     Button(action: {
                         self.flagTapped(number, country : self.countries[number])
+                        if number == self.correctAnswer{
+                            withAnimation(){
+                                self.animationAmount += 360
+                            }
+                            self.animationOpacity = 0.25
+                        }else{
+                            self.animationOpacity = 1
+                            self.animationAmount2 = 2
+                        }
                     }){
                         FlagImage(img: self.countries[number])
-//                        Image(self.countries[number])
-//                            .renderingMode(.original)
-//                            .clipShape(Capsule())
-//                            .overlay(Capsule().stroke(Color.black, lineWidth: 1))
-//                            .shadow(color: .black, radius: 2)
-                    }
+                        //                        Image(self.countries[number])
+                        //                            .renderingMode(.original)
+                        //                            .clipShape(Capsule())
+                        //                            .overlay(Capsule().stroke(Color.black, lineWidth: 1))
+                        //                            .shadow(color: .black, radius: 2)
+                    }.rotation3DEffect(.degrees(number == self.correctAnswer ? self.animationAmount : 0), axis: (x: 0, y: 1, z: 0))
+                        .opacity(number != self.correctAnswer ? self.animationOpacity : 1)
+                        .blur(radius: (self.animationAmount2 - 1) * 3)
                 }
                 Text("Your score is \(score)")
                     .foregroundColor(Color.white)
@@ -51,7 +66,7 @@ struct ContentView: View {
         .alert(isPresented: $showingScore) {
             Alert(title: Text(scoreTitle), message: Text(msg), dismissButton: .default(Text("Continue")) {
                 self.askQuestion()
-            })
+                })
         }
     }
     
@@ -69,13 +84,15 @@ struct ContentView: View {
             msg = "Oh No, it's \(country)\n Your score is \(score)"
             scoreTitle = "Wrong"
         }
-
+        
         showingScore = true
     }
     
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        animationAmount2 = 1
+        animationOpacity = 1.0
     }
 }
 
@@ -90,9 +107,9 @@ struct FlagImage: View {
     
     var body: some View{
         Image(img)
-        .renderingMode(.original)
-        .clipShape(Capsule())
-        .overlay(Capsule().stroke(Color.black, lineWidth: 1))
-        .shadow(color: .black, radius: 2)
+            .renderingMode(.original)
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(Color.black, lineWidth: 1))
+            .shadow(color: .black, radius: 2)
     }
 }
