@@ -16,7 +16,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(missions) { mission in
-                NavigationLink(destination: Text("Detail view")) {
+                NavigationLink(destination: MissionView(mission: mission, astronauts: self.astronauts)) {
                     Image(mission.image)
                         .resizable()
                         .scaledToFit()
@@ -35,7 +35,10 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    static let missions: [Mission] = Bundle.main.decode("missions.json")
+    static let astronauts: [Astronaut] = Bundle.main.decode("astronauts.json")
+    
     static var previews: some View {
-        ContentView()
+        MissionView(mission: missions[0], astronauts: astronauts)
     }
 }
